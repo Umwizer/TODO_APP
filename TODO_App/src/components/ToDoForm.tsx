@@ -6,23 +6,25 @@ type ToDoFormProps = {
 
 const ToDoForm: React.FC<ToDoFormProps> = ({ addToDo }) => {
   const [input, setInput] = useState<string>("");
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
     addToDo(input);
     setInput("");
   };
+
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: 20 }}>
+    <form onSubmit={handleSubmit} className="todo-form">
       <input
         type="text"
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        placeholder="Enter new task..."
-        style={{ padding: 8, width: "70%" }}
+        placeholder="Add todo..."
+        className="todo-input"
       />
-      <button type="submit" style={{ padding: 8, marginLeft: 10 }}>
-        Add
+      <button type="submit" className="add-button">
+        +
       </button>
     </form>
   );

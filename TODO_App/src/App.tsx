@@ -1,6 +1,7 @@
 import type { Todo } from "./types.tsx";
 import ToDoForm from "./components/ToDoForm";
 import { useState } from "react";
+import "./App.css";
 
 const App: React.FC = () => {
   const [todos, setToDos] = useState<Todo[]>([]);
@@ -22,28 +23,37 @@ const App: React.FC = () => {
     );
   };
 
+  // const deleteTodo = (id: number) => {
+  //   setToDos(todos.filter((todo) => todo.id !== id));
+  // };
+  const deleteTodo = (id: number) => {
+    setToDos(todos.filter((todo) => todo.id !== id));
+  };
   return (
-    <div style={{ padding: 20 }}>
-      <h1>Todo App </h1>
+    <div className="app-container">
+      <h1 className="title">todos</h1>
       <ToDoForm addToDo={addTodo} />
 
-      {/* Show todo list */}
-      {todos.map((todo) => (
-        <div
-          key={todo.id}
-          onClick={() => toggleTodo(todo.id)}
-          style={{
-            cursor: "pointer",
-            // textDecoration: todo.completed ? "line-through" : "none",
-            marginBottom: 10,
-            padding: 10,
-            borderRadius: 4,
-            boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-          }}
-        >
-          {todo.text}
-        </div>
-      ))}
+      <ul className="todo-list">
+        {todos.map((todo) => (
+          <li key={todo.id} className="todo-item">
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => toggleTodo(todo.id)}
+            />
+            <span className={todo.completed ? "completed" : ""}>
+              {todo.text}
+            </span>
+            {/* <button
+              className="delete-button"
+              onClick={() => deleteTodo(todo.id)}
+            >
+              Delete
+            </button> */}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
