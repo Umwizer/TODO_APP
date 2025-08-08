@@ -5,6 +5,8 @@ import "./App.css";
 
 const App: React.FC = () => {
   const [todos, setToDos] = useState<Todo[]>([]);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editingText, setEditingText] = useState("");
 
   const addTodo = (text: string) => {
     const newTodo: Todo = {
@@ -23,12 +25,27 @@ const App: React.FC = () => {
     );
   };
 
-  // const deleteTodo = (id: number) => {
-  //   setToDos(todos.filter((todo) => todo.id !== id));
-  // };
   const deleteTodo = (id: number) => {
     setToDos(todos.filter((todo) => todo.id !== id));
   };
+
+  const updateTodo = (id: number, newText: string) => {
+    setToDos((prev) =>
+      prev.map((todo) =>
+        todo.id === id ? { ...todo, text: newText.trim() } : todo
+      )
+    );
+  };
+
+  // <-- Add this function
+  const handleUpdate = () => {
+    if (editingText.trim() && editingId !== null) {
+      updateTodo(editingId, editingText);
+      setEditingId(null);
+      setEditingText("");
+    }
+  };
+
   return (
     <div className="app-container">
       <h1 className="title">todos</h1>
@@ -42,15 +59,59 @@ const App: React.FC = () => {
               checked={todo.completed}
               onChange={() => toggleTodo(todo.id)}
             />
-            <span className={todo.completed ? "completed" : ""}>
-              {todo.text}
-            </span>
-            {/* <button
+
+            {/* Show input field if editing this todo */}
+            {editingId === todo.id ? (
+              <>
+                <input
+                  type="text"
+                  value={editingText}
+                  onChange={(e) => setEditingText(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleUpdate();
+                    }
+                    if (e.key === "Escape") {
+                      setEditingId(null);
+                      setEditingText("");
+                    }
+                  }}
+                  autoFocus
+                />
+                <button onClick={handleUpdate}>Save</button>
+                <button
+                  onClick={() => {
+                    setEditingId(null);
+                    setEditingText("");
+                  }}
+                >
+                  Cancel
+                </button>
+              </>
+            ) : (
+              <>
+                <span className={todo.completed ? "completed" : ""}>
+                  {todo.text}
+                </span>
+
+                <button
+                  className="update-button"
+                  onClick={() => {
+                    setEditingId(todo.id);
+                    setEditingText(todo.text);
+                  }}
+                >
+                  Edit
+                </button>
+              </>
+            )}
+
+            <button
               className="delete-button"
               onClick={() => deleteTodo(todo.id)}
             >
-              Delete
-            </button> */}
+              -
+            </button>
           </li>
         ))}
       </ul>

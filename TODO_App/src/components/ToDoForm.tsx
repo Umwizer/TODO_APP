@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 type ToDoFormProps = {
   addToDo: (text: string) => void;
@@ -13,6 +13,9 @@ const ToDoForm: React.FC<ToDoFormProps> = ({ addToDo }) => {
     addToDo(input);
     setInput("");
   };
+  useEffect(() => {
+    localStorage.setItem("Todos", JSON.stringify(ToDoForm));
+  });
 
   return (
     <form onSubmit={handleSubmit} className="todo-form">
