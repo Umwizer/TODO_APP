@@ -1,0 +1,85 @@
+.card {
+  width: 250px;
+  height: 320px;
+  cursor: pointer;
+  margin: 10px;
+  perspective: 800px; /* Keep 3D flip */
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s ease-in-out;
+  transform-style: preserve-3d;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1); /* lighter shadow */
+  background-color: #fafafa;
+  font-family: Arial, sans-serif;
+}
+
+/* Flip on hover */
+.card:hover .card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Front and back common styles */
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  backface-visibility: hidden;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  font-weight: normal;
+}
+
+/* Front side */
+.card-front {
+  background-color: #e0e0e0; /* subtle gray */
+  text-align: center;
+}
+
+.card-front h3 {
+  margin: 0 0 8px;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.card-front p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* Back side */
+.card-back {
+  background-color: #fff;
+  color: #444;
+  transform: rotateY(180deg);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  text-align: left;
+  padding-top: 20px;
+  gap: 6px;
+}
+
+.card-back p {
+  margin: 4px 0;
+  font-weight: 400;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+}
